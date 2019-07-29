@@ -100,101 +100,56 @@ namespace JurisUtilityBase
         {
             
             string SQL = "";
-            string ignoreMatters = "";
-            //Billing Guides
-            SQL = "select mnmatter from matternote where MNNoteIndex = 'Billing Guides'";
-            DataSet ds = _jurisUtility.RecordsetFromSQL(SQL);
-            if (ds.Tables[0].Rows.Count != 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                    ignoreMatters = ignoreMatters + row["mnmatter"].ToString() + ",";
-                ignoreMatters = ignoreMatters.TrimEnd(',');
-            }
 
-            if (!string.IsNullOrEmpty(ignoreMatters))
-                SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Billing Guides', '', '', null from matter where matsysnbr not in (" + ignoreMatters + ")";
-            else
-                SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Billing Guides', '', '', null from matter";
+            UpdateStatus("Creating Notecards...", 0, 0);
+            toolStripStatusLabel.Text = "Creating Notecards...";
+            Cursor.Current = Cursors.WaitCursor;
+            statusStrip.Refresh();
+            Application.DoEvents();
+
+
+            //Billing Guides
+            SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Billing Guides', '', '', null from matter where matsysnbr not in (select mnmatter from matternote where MNNoteIndex = 'Billing Guides')";
+
             _jurisUtility.ExecuteNonQueryCommand(0, SQL);
+
             UpdateStatus("Billing Guides Added.", 1, 5);
-            ds.Clear();
-            ignoreMatters = "";
+
 
             //Closing Ltr
-            SQL = "select mnmatter from matternote where MNNoteIndex = 'Closing Ltr'";
-            ds = _jurisUtility.RecordsetFromSQL(SQL);
-            if (ds.Tables[0].Rows.Count != 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                    ignoreMatters = ignoreMatters + row["mnmatter"].ToString() + ",";
-                ignoreMatters = ignoreMatters.TrimEnd(',');
-            }
+            SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Closing Ltr', '', '', null from matter where matsysnbr not in (select mnmatter from matternote where MNNoteIndex = 'Closing Ltr')";
 
-            if (!string.IsNullOrEmpty(ignoreMatters))
-                SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Closing Ltr', '', '', null from matter where matsysnbr not in (" + ignoreMatters + ")";
-            else
-                SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Closing Ltr', '', '', null from matter";
             _jurisUtility.ExecuteNonQueryCommand(0, SQL);
+
             UpdateStatus("Closing Ltr Added.", 2, 5);
-            ds.Clear();
-            ignoreMatters = "";
+
 
             //Engagement Ltr
-            SQL = "select mnmatter from matternote where MNNoteIndex = 'Engagement Ltr'";
-            ds = _jurisUtility.RecordsetFromSQL(SQL);
-            if (ds.Tables[0].Rows.Count != 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                    ignoreMatters = ignoreMatters + row["mnmatter"].ToString() + ",";
-                ignoreMatters = ignoreMatters.TrimEnd(',');
-            }
+            SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Engagement Ltr', '', '', null from matter where matsysnbr not in (select mnmatter from matternote where MNNoteIndex = 'Engagement Ltr')";
 
-            if (!string.IsNullOrEmpty(ignoreMatters))
-                SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Engagement Ltr', '', '', null from matter where matsysnbr not in (" + ignoreMatters + ")";
-            else
-                SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Engagement Ltr', '', '', null from matter";
             _jurisUtility.ExecuteNonQueryCommand(0, SQL);
             UpdateStatus("Engagement Ltr Added.", 3, 5);
-            ds.Clear();
-            ignoreMatters = "";
 
             //Invoice Sent To
-            SQL = "select mnmatter from matternote where MNNoteIndex = 'Invoice Sent To'";
-            ds = _jurisUtility.RecordsetFromSQL(SQL);
-            if (ds.Tables[0].Rows.Count != 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                    ignoreMatters = ignoreMatters + row["mnmatter"].ToString() + ",";
-                ignoreMatters = ignoreMatters.TrimEnd(',');
-            }
 
-            if (!string.IsNullOrEmpty(ignoreMatters))
-                SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Invoice Sent To', '', '', null from matter where matsysnbr not in (" + ignoreMatters + ")";
-            else
-                SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Invoice Sent To', '', '', null from matter";
+            SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Invoice Sent To', '', '', null from matter where matsysnbr not in (select mnmatter from matternote where MNNoteIndex = 'Invoice Sent To')";
+
             _jurisUtility.ExecuteNonQueryCommand(0, SQL);
             UpdateStatus("Invoice Sent To Added.", 4, 5);
-            ds.Clear();
-            ignoreMatters = "";
 
             //Write Off Instr
-            SQL = "select mnmatter from matternote where MNNoteIndex = 'Write Off Instr'";
-            ds = _jurisUtility.RecordsetFromSQL(SQL);
-            if (ds.Tables[0].Rows.Count != 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                    ignoreMatters = ignoreMatters + row["mnmatter"].ToString() + ",";
-                ignoreMatters = ignoreMatters.TrimEnd(',');
-            }
 
-            if (!string.IsNullOrEmpty(ignoreMatters))
-                SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Write Off Instr', '', '', null from matter where matsysnbr not in (" + ignoreMatters + ")";
-            else
-                SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Write Off Instr', '', '', null from matter";
+            SQL = "insert into matternote (mnmatter, mnnoteindex, mnobject, mnnotetext, mnnoteobject) select matsysnbr, 'Write Off Instr', '', '', null from matter where matsysnbr not in (select mnmatter from matternote where MNNoteIndex = 'Write Off Instr')";
+
             _jurisUtility.ExecuteNonQueryCommand(0, SQL);
             UpdateStatus("Write Off Instr Added.", 5, 5);
-            ds.Clear();
-            ignoreMatters = "";
+
+            
+            toolStripStatusLabel.Text = "Notecards Updated.";
+            Cursor.Current = Cursors.Default;
+            statusStrip.Refresh();
+            Application.DoEvents();
+
 
             MessageBox.Show("Process Complete!", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.None);
         }
